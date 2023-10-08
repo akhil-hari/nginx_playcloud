@@ -28,7 +28,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Hit a webhook
-        run: curl -X POST $PORTAINER_WEBHOOK
+        run: curl -X POST -k $PORTAINER_WEBHOOK
         env:
           PORTAINER_WEBHOOK: ${{ secrets.PORTAINER_WEBHOOK }}
 
