@@ -3,4 +3,4 @@ services:
   nginx:
     image: nginx:1.24.0-alpine-slim
     ports:
-      - 80:80
+      - 8080:80
