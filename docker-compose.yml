@@ -2,8 +2,11 @@ version: "3.8"
 services:
   nginx:
     image: nginx:1.24-alpine
-    # deploy:
-    #   restart-condition: on-failure
+    deploy:
+      restart: on-failure
+      placement:
+        constraints:
+         - node.role == manager
     ports:
       - 80:80
       - 443:443
@@ -14,8 +17,11 @@ services:
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   certbot:
     image: certbot/certbot
-    # deploy:
-    #   restart-condition : on-failure
+    deploy:
+      restart: on-failure
+      placement:
+        constraints:
+         - node.role == manager
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
