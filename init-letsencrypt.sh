@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker compose)" ]; then
   exit 1
 fi
 
-domains=("akhilhari.xyz" "*.akhilhari.xyz" "*.app.akhilhari.xyz")
+domains=("akhilhari.xyz" "swarmpit.akhilhari.xyz" "docker.akhilhari.xyz")
 rsa_key_size=4096
 data_path="./data/certbot"
 email="aklhnrpm@gmail.com" # Adding a valid address is strongly recommended
