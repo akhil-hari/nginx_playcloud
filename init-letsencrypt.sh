@@ -74,7 +74,7 @@ docker compose run --entrypoint "\
     $domain_args \
     --rsa-key-size $rsa_key_size \
     --agree-tos \
-    --force-renewal" \\
+    --force-renewal" \
     -p 80:80
     certbot
 echo
