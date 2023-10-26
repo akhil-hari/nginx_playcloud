@@ -36,6 +36,7 @@ docker compose run --entrypoint "\
     -out '$path/fullchain.pem' \
     -subj '/CN=localhost'" certbot
 echo
+docker compose run --entrypoint apt install python3-certbot-nginx
 
 
 echo "### Starting nginx ..."
