@@ -3,7 +3,8 @@ services:
   nginx:
     image: nginx:1.24-alpine
     deploy:
-      restart: on-failure
+      restart_policy :
+        condition: on-failure
       placement:
         constraints:
          - node.role == manager
@@ -18,7 +19,8 @@ services:
   certbot:
     image: certbot/certbot
     deploy:
-      restart: on-failure
+      restart_policy :
+        condition: on-failure
       placement:
         constraints:
          - node.role == manager
