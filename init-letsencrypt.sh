@@ -19,36 +19,36 @@ if [ -d "$data_path" ]; then
 fi
 
 
-if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] || [ ! -e "$data_path/conf/ssl-dhparams.pem" ]; then
-  echo "### Downloading recommended TLS parameters ..."
-  mkdir -p "$data_path/conf"
-  curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf > "$data_path/conf/options-ssl-nginx.conf"
-  curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem > "$data_path/conf/ssl-dhparams.pem"
-  echo
-fi
+# if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] || [ ! -e "$data_path/conf/ssl-dhparams.pem" ]; then
+#   echo "### Downloading recommended TLS parameters ..."
+#   mkdir -p "$data_path/conf"
+#   curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf > "$data_path/conf/options-ssl-nginx.conf"
+#   curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem > "$data_path/conf/ssl-dhparams.pem"
+#   echo
+# fi
 
-echo "### Creating dummy certificate for $domains ..."
-path="/etc/letsencrypt/live/$domains"
-mkdir -p "$data_path/conf/live/$domains"
-docker compose run --entrypoint "\
-  openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 1\
-    -keyout '$path/privkey.pem' \
-    -out '$path/fullchain.pem' \
-    -subj '/CN=localhost'" certbot
-echo
-docker compose run --entrypoint apt install python3-certbot-nginx
+# echo "### Creating dummy certificate for $domains ..."
+# path="/etc/letsencrypt/live/$domains"
+# mkdir -p "$data_path/conf/live/$domains"
+# docker compose run --entrypoint "\
+#   openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 1\
+#     -keyout '$path/privkey.pem' \
+#     -out '$path/fullchain.pem' \
+#     -subj '/CN=localhost'" certbot
+# echo
+# docker compose run --entrypoint apt install python3-certbot-nginx
 
 
-echo "### Starting nginx ..."
-docker compose up --force-recreate -d nginx
-echo
+# echo "### Starting nginx ..."
+# docker compose up --force-recreate -d nginx
+# echo
 
-echo "### Deleting dummy certificate for $domains ..."
-docker compose run --entrypoint "\
-  rm -Rf /etc/letsencrypt/live/$domains && \
-  rm -Rf /etc/letsencrypt/archive/$domains && \
-  rm -Rf /etc/letsencrypt/renewal/$domains.conf" certbot
-echo
+# echo "### Deleting dummy certificate for $domains ..."
+# docker compose run --entrypoint "\
+#   rm -Rf /etc/letsencrypt/live/$domains && \
+#   rm -Rf /etc/letsencrypt/archive/$domains && \
+#   rm -Rf /etc/letsencrypt/renewal/$domains.conf" certbot
+# echo
 
 
 echo "### Requesting Let's Encrypt certificate for $domains ..."
@@ -68,7 +68,7 @@ esac
 if [ $staging != "0" ]; then staging_arg="--staging"; fi
 
 docker compose run --entrypoint "\
-  certbot --nginx
+  certbot certonly --standalone
     $staging_arg \
     $email_arg \
     $domain_args \
