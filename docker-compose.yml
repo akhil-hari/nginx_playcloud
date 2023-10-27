@@ -1,19 +1,19 @@
 version: "3.8"
-services:
-  nginx:
-    image: nginx:1.24-alpine
-    deploy:
-      placement:
-        constraints:
-         - node.role == manager
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./data/nginx:/etc/nginx/conf.d
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+# services:
+#   nginx:
+#     image: nginx:1.24-alpine
+#     deploy:
+#       placement:
+#         constraints:
+#          - node.role == manager
+#     ports:
+#       - 80:80
+#       - 443:443
+#     volumes:
+#       - ./data/nginx:/etc/nginx/conf.d
+#       - ./data/certbot/conf:/etc/letsencrypt
+#       - ./data/certbot/www:/var/www/certbot
+#     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   certbot:
     image: certbot/certbot
     deploy:
