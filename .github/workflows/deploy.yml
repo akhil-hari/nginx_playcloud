@@ -14,6 +14,6 @@ jobs:
 
       # Runs portainer webhook to trigger redeployment
       - name: hit portainer webhook
-        run: curl -X POST -k $PORTAINER_WEBHOOK
+        run: echo "dummy workflow"
         env:
           PORTAINER_WEBHOOK: ${{ secrets.PORTAINER_WEBHOOK }}
